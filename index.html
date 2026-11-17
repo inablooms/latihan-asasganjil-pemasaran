@@ -1,0 +1,2461 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Kuis Interaktif Projek IPAS (Bidang Pemasaran)</title>
+<style>
+  :root {
+    --bg-gradient: linear-gradient(135deg, #2b1055 0%, #4b1d95 50%, #1e3a8a 100%);
+    --card-bg: #ffffff;
+    --text-dark: #1f2937;
+    --text-muted: #6b7280;
+    --primary: #6d28d9;
+    --primary-hover: #5b21b6;
+    --opt-a: #e11d48;
+    --opt-a-dark: #be123c;
+    --opt-b: #2563eb;
+    --opt-b-dark: #1d4ed8;
+    --opt-c: #d97706;
+    --opt-c-dark: #b45309;
+    --opt-d: #059669;
+    --opt-d-dark: #047857;
+    --opt-e: #7c3aed;
+    --opt-e-dark: #6d28d9;
+    --radius: 16px;
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background: var(--bg-gradient);
+    min-height: 100vh;
+    min-height: 100dvh;
+    color: var(--text-dark);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
+
+  .container {
+    width: 100%;
+    max-width: 880px;
+    margin: auto;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 28px;
+    animation: fadeIn 0.35s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  button, a.btn {
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  /* BANNER PERINGATAN BROWSER IN-APP (WA / IG / DLL) */
+  .inapp-warning-banner {
+    background: #fef2f2;
+    border: 2px solid #ef4444;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 18px;
+    color: #991b1b;
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .inapp-warning-banner strong {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 4px;
+    color: #7f1d1d;
+  }
+
+  /* HALAMAN PEMBUKA */
+  .badge-top {
+    display: inline-block;
+    background: #ede9fe;
+    color: #5b21b6;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+  }
+
+  .title-main {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: #111827;
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  .rules-box {
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-left: 6px solid #7c3aed;
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 24px;
+  }
+
+  .rules-box h3 {
+    font-size: 1.05rem;
+    margin-bottom: 12px;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .rules-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+  }
+
+  .rules-list li {
+    font-size: 0.93rem;
+    color: #334155;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.4;
+  }
+
+  .attempt-notice {
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    color: #92400e;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 18px;
+    line-height: 1.45;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+
+  .form-group label {
+    display: block;
+    font-weight: 700;
+    font-size: 0.92rem;
+    margin-bottom: 6px;
+    color: #374151;
+  }
+
+  .form-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .form-group input:focus {
+    outline: none;
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+  }
+
+  .error-msg {
+    color: #dc2626;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 14px;
+    display: none;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 24px;
+    min-height: 48px;
+    font-size: 1.02rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.1s, background-color 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+  }
+
+  .btn:active {
+    transform: translateY(2px);
+  }
+
+  .btn-primary {
+    width: 100%;
+    background: #7c3aed;
+    color: #ffffff;
+    box-shadow: 0 5px 0 #5b21b6;
+  }
+
+  .btn-primary:hover {
+    background: #6d28d9;
+  }
+
+  /* KOTAK UNDUH & KIRIM PDF KE GURU */
+  .submit-teacher-box {
+    background: #ecfdf5;
+    border: 2px solid #10b981;
+    border-radius: 14px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 640px;
+    text-align: center;
+  }
+
+  .submit-teacher-box h3 {
+    color: #065f46;
+    font-size: 1.15rem;
+    margin-bottom: 6px;
+  }
+
+  .submit-teacher-box p {
+    color: #047857;
+    font-size: 0.92rem;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+
+  .pdf-status-badge {
+    display: inline-block;
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #34d399;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 8px 14px;
+    border-radius: 8px;
+    margin-bottom: 14px;
+    word-break: break-word;
+  }
+
+  .submit-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .btn-pdf {
+    background: #dc2626;
+    color: #ffffff;
+    box-shadow: 0 4px 0 #991b1b;
+    font-size: 0.96rem;
+    padding: 12px 18px;
+  }
+
+  .btn-pdf:hover {
+    background: #b91c1c;
+  }
+
+  .btn-whatsapp {
+    background: #16a34a;
+    color: #ffffff;
+    box-shadow: 0 4px 0 #15803d;
+    font-size: 0.96rem;
+    padding: 12px 18px;
+  }
+
+  .btn-whatsapp:hover {
+    background: #15803d;
+  }
+
+  .repeat-info-box {
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin: 18px auto;
+    max-width: 580px;
+    color: #475569;
+    font-size: 0.92rem;
+    line-height: 1.45;
+  }
+
+  /* HALAMAN KUIS */
+  .quiz-header {
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: 14px;
+    padding: 14px 20px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  }
+
+  .player-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .avatar-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #7c3aed;
+    color: white;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+  }
+
+  .player-meta div:first-child {
+    font-weight: 800;
+    font-size: 0.98rem;
+    color: #111827;
+  }
+
+  .player-meta div:last-child {
+    font-size: 0.82rem;
+    color: #6b7280;
+    font-weight: 600;
+  }
+
+  .status-pills {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .pill {
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 0.95rem;
+  }
+
+  .pill-progress {
+    background: #ede9fe;
+    color: #5b21b6;
+  }
+
+  .pill-timer {
+    background: #fef3c7;
+    color: #b45309;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pill-timer.danger {
+    background: #fee2e2;
+    color: #dc2626;
+    animation: pulse 1s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+  }
+
+  .progress-bar-wrap {
+    width: 100%;
+    height: 8px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: #34d399;
+    width: 4%;
+    transition: width 0.3s ease;
+  }
+
+  .question-text {
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.6;
+    color: #111827;
+    margin-bottom: 22px;
+    white-space: pre-line;
+  }
+
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .option-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    min-height: 54px;
+    text-align: left;
+    padding: 14px 18px;
+    border: 3px solid transparent;
+    border-radius: 14px;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    cursor: pointer;
+    transition: transform 0.12s, opacity 0.2s, box-shadow 0.2s;
+  }
+
+  .option-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+  }
+
+  .option-btn.opt-0 { background: var(--opt-a); box-shadow: 0 4px 0 var(--opt-a-dark); }
+  .option-btn.opt-1 { background: var(--opt-b); box-shadow: 0 4px 0 var(--opt-b-dark); }
+  .option-btn.opt-2 { background: var(--opt-c); box-shadow: 0 4px 0 var(--opt-c-dark); }
+  .option-btn.opt-3 { background: var(--opt-d); box-shadow: 0 4px 0 var(--opt-d-dark); }
+  .option-btn.opt-4 { background: var(--opt-e); box-shadow: 0 4px 0 var(--opt-e-dark); }
+
+  .option-btn.dimmed {
+    opacity: 0.58;
+  }
+
+  .option-btn.selected {
+    opacity: 1;
+    border-color: #ffffff;
+    box-shadow: 0 0 0 4px #111827, 0 6px 14px rgba(0,0,0,0.3);
+    transform: scale(1.01);
+  }
+
+  .shape-icon {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    background: rgba(0, 0, 0, 0.22);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    font-weight: 800;
+  }
+
+  .option-label-wrap {
+    flex: 1;
+  }
+
+  .option-letter {
+    font-weight: 800;
+    margin-right: 6px;
+    text-decoration: underline;
+  }
+
+  .selected-tag {
+    background: #ffffff;
+    color: #111827;
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 999px;
+    text-transform: uppercase;
+  }
+
+  .nav-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 2px solid #f1f5f9;
+  }
+
+  .btn-nav {
+    padding: 12px 20px;
+    min-height: 46px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.98rem;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+
+  .btn-nav:active {
+    transform: translateY(1px);
+  }
+
+  .btn-prev {
+    background: #e2e8f0;
+    color: #334155;
+  }
+
+  .btn-prev:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .btn-next {
+    background: #2563eb;
+    color: #ffffff;
+  }
+
+  .btn-next:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .btn-finish {
+    background: #059669;
+    color: #ffffff;
+  }
+
+  .btn-finish:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .navigator-box {
+    margin-top: 18px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  }
+
+  .navigator-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #475569;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .nav-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+    gap: 6px;
+  }
+
+  .nav-num {
+    height: 40px;
+    border-radius: 8px;
+    border: 2px solid #cbd5e1;
+    background: #ffffff;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #334155;
+    cursor: pointer;
+  }
+
+  .nav-num.answered {
+    background: #7c3aed;
+    border-color: #7c3aed;
+    color: #ffffff;
+  }
+
+  .nav-num.current {
+    border-color: #111827;
+    box-shadow: 0 0 0 2px #facc15;
+  }
+
+  /* MODAL KONFIRMASI & PERINGATAN LAYAR */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.72);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 999;
+  }
+
+  .security-backdrop {
+    background: rgba(15, 23, 42, 0.96);
+    z-index: 1000;
+  }
+
+  .modal-box {
+    background: #ffffff;
+    border-radius: 16px;
+    max-width: 420px;
+    width: 100%;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 20px 35px rgba(0,0,0,0.3);
+  }
+
+  .modal-box h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: #111827;
+  }
+
+  .modal-box p {
+    color: #4b5563;
+    font-size: 0.96rem;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .security-badge-type {
+    display: inline-block;
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #f87171;
+    font-size: 0.8rem;
+    font-weight: 800;
+    padding: 5px 12px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+  }
+
+  .security-tips {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 0.84rem;
+    color: #7f1d1d;
+    margin-bottom: 14px;
+    text-align: left;
+    line-height: 1.45;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .modal-actions button {
+    flex: 1;
+    min-height: 46px;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+  }
+
+  /* HALAMAN HASIL & PEMBAHASAN */
+  .result-hero {
+    text-align: center;
+    padding-bottom: 22px;
+    border-bottom: 2px solid #f1f5f9;
+    margin-bottom: 20px;
+  }
+
+  .score-circle {
+    width: 136px;
+    height: 136px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7c3aed, #2563eb);
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 14px auto;
+    box-shadow: 0 10px 25px rgba(124, 58, 237, 0.35);
+  }
+
+  .score-circle span:first-child {
+    font-size: 2.6rem;
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  .score-circle span:last-child {
+    font-size: 0.82rem;
+    opacity: 0.9;
+    margin-top: 4px;
+    font-weight: 600;
+  }
+
+  .appreciation-msg {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #4c1d95;
+    margin-bottom: 6px;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin: 18px 0;
+  }
+
+  .stat-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px;
+  }
+
+  .stat-card .label {
+    font-size: 0.8rem;
+    color: #64748b;
+    font-weight: 700;
+  }
+
+  .stat-card .val {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-top: 2px;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .btn-secondary {
+    background: #2563eb;
+    color: #ffffff;
+    box-shadow: 0 5px 0 #1d4ed8;
+  }
+
+  .btn-secondary:hover {
+    background: #1d4ed8;
+  }
+
+  /* TOMBOL TOGGLE REKAP & PEMBAHASAN */
+  .btn-toggle-review {
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    background: #f8fafc;
+    border: 2px solid #cbd5e1;
+    border-radius: 12px;
+    color: #1e293b;
+    font-size: 1.02rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+  }
+
+  .btn-toggle-review:hover,
+  .btn-toggle-review[aria-expanded="true"] {
+    background: #ede9fe;
+    border-color: #7c3aed;
+    color: #5b21b6;
+  }
+
+  .toggle-chevron {
+    font-size: 0.95rem;
+    transition: transform 0.25s ease;
+  }
+
+  .btn-toggle-review[aria-expanded="true"] .toggle-chevron {
+    transform: rotate(180deg);
+  }
+
+  .review-content {
+    margin-top: 16px;
+    animation: fadeIn 0.25s ease;
+  }
+
+  .review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+    scroll-margin-top: 20px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    transition: background-color 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  .review-header.highlight-focus {
+    background-color: #ede9fe;
+    box-shadow: 0 0 0 3px #7c3aed;
+  }
+
+  .review-item {
+    border: 2px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 14px;
+    background: #ffffff;
+  }
+
+  .review-item.correct {
+    border-left: 6px solid #059669;
+  }
+
+  .review-item.wrong {
+    border-left: 6px solid #e11d48;
+  }
+
+  .review-item.unanswered {
+    border-left: 6px solid #d97706;
+  }
+
+  .review-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    gap: 8px;
+  }
+
+  .status-badge {
+    font-size: 0.78rem;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+
+  .status-badge.correct { background: #d1fae5; color: #065f46; }
+  .status-badge.wrong { background: #ffe4e6; color: #9f1239; }
+  .status-badge.unanswered { background: #fef3c7; color: #92400e; }
+
+  .review-q {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    line-height: 1.45;
+    white-space: pre-line;
+  }
+
+  .review-ans {
+    font-size: 0.92rem;
+    margin-bottom: 4px;
+  }
+
+  .explanation-box {
+    margin-top: 10px;
+    background: #f1f5f9;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #334155;
+    line-height: 1.45;
+  }
+
+  @media (max-width: 600px) {
+    .card { padding: 18px; }
+    .title-main { font-size: 1.45rem; }
+    .form-grid { grid-template-columns: 1fr; }
+    .question-text { font-size: 1.05rem; }
+    .option-btn { padding: 12px 14px; font-size: 0.95rem; }
+    .submit-actions { flex-direction: column; }
+    .submit-actions .btn { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- 1. HALAMAN PEMBUKA -->
+  <section id="start-screen" class="card">
+    <div id="inapp-browser-warning" class="inapp-warning-banner hidden">
+      <strong>⚠️ Buka di Browser Utama (Chrome / Safari)</strong>
+      Anda membuka halaman ini dari dalam pratinjau aplikasi (WhatsApp/Media Sosial). Ketuk menu titik tiga (⋮) atau ikon Bagikan/Safari di pojok layar, lalu pilih <b>"Buka di Chrome"</b> atau <b>"Buka di Safari"</b> agar kuis dan pengunduhan PDF berjalan lancar.
+    </div>
+
+    <span class="badge-top">ASAS GANJIL • PROJEK IPAS</span>
+    <h1 class="title-main">Kuis Interaktif Projek IPAS (Bidang Pemasaran)</h1>
+    <p class="subtitle">Uji pemahamanmu mengenai makhluk hidup &amp; lingkungannya, zat &amp; perubahannya, serta perilaku ekonomi dan pemasaran dalam dunia bisnis ritel.</p>
+
+    <div class="rules-box">
+      <h3>📋 Petunjuk Permainan</h3>
+      <ul class="rules-list">
+        <li>🎯 <strong>Jumlah Soal:</strong> 25 soal</li>
+        <li>⏱️ <strong>Waktu Pengerjaan:</strong> 40 menit</li>
+        <li>🏆 <strong>Sistem Skor:</strong> 4 poin (maksimal 100)</li>
+        <li>🔒 <strong>Aturan Pengerjaan:</strong> Dilarang keluar/berpindah tab selama ujian.</li>
+        <li>📄 <strong>Pengiriman Nilai:</strong> Unduh file PDF hasil pada <strong>percobaan pertama</strong> lalu kirim ke WA guru</li>
+      </ul>
+    </div>
+
+    <div id="repeat-warning-start" class="attempt-notice hidden">
+      ℹ️ <strong>Info Percobaan Ulang:</strong> Kamu sudah menyelesaikan percobaan pertama sebelumnya. Sesi kali ini hanya bersifat <strong>latihan mandiri</strong> dan dokumen PDF hasil resmi tidak akan diterbitkan kembali.
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="player-name">Nama Pemain *</label>
+        <input type="text" id="player-name" placeholder="Contoh: Rina Sari" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="player-class">Kelas *</label>
+        <input type="text" id="player-class" placeholder="Contoh: X Pemasaran 1" autocomplete="off">
+      </div>
+    </div>
+
+    <p id="form-error" class="error-msg">⚠️ Harap isi Nama Pemain (NAMA LENGKAP) dan Kelas terlebih dahulu sebelum memulai kuis!</p>
+
+    <button id="btn-start" class="btn btn-primary" type="button">🚀 Mulai Kuis</button>
+  </section>
+
+  <!-- 2. HALAMAN PENGERJAAN KUIS -->
+  <section id="quiz-screen" class="hidden">
+    <div class="quiz-header">
+      <div class="player-badge">
+        <div class="avatar-circle" id="avatar-initial">P</div>
+        <div class="player-meta">
+          <div id="display-name">Nama Pemain</div>
+          <div id="display-class">Kelas</div>
+        </div>
+      </div>
+      <div class="status-pills">
+        <div class="pill pill-progress" id="question-counter">Soal 1 / 25</div>
+        <div class="pill pill-timer" id="timer-display">⏱️ 40:00</div>
+      </div>
+    </div>
+
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progress-fill"></div>
+    </div>
+
+    <div class="card">
+      <div class="question-text" id="question-text">Memuat soal...</div>
+      <div class="options-grid" id="options-container"></div>
+
+      <div class="nav-controls">
+        <button id="btn-prev" class="btn-nav btn-prev" type="button">⬅️ Sebelumnya</button>
+        <button id="btn-next" class="btn-nav btn-next" type="button">Lanjut ➡️</button>
+        <button id="btn-finish" class="btn-nav btn-finish hidden" type="button">✅ Selesai &amp; Lihat Hasil</button>
+      </div>
+    </div>
+
+    <div class="navigator-box">
+      <div class="navigator-title">
+        <span>Navigasi Nomor Soal</span>
+        <span id="answered-count">Terjawab: 0 / 25</span>
+      </div>
+      <div class="nav-grid" id="nav-grid"></div>
+    </div>
+  </section>
+
+  <!-- 3. HALAMAN HASIL AKHIR & PEMBAHASAN -->
+  <section id="result-screen" class="card hidden">
+    <div class="result-hero">
+      <span class="badge-top">HASIL AKHIR EVALUASI</span>
+      <h2 class="title-main" id="result-player-info">Nama Pemain - Kelas</h2>
+      <div class="score-circle">
+        <span id="final-score">0</span>
+        <span>SKOR AKHIR</span>
+      </div>
+      <p class="appreciation-msg" id="appreciation-msg">Luar Biasa!</p>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="label">Jawaban Benar</div>
+          <div class="val" style="color:#059669" id="stat-correct">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Salah / Kosong</div>
+          <div class="val" style="color:#e11d48" id="stat-wrong">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Sisa Waktu</div>
+          <div class="val" id="stat-time">00:00</div>
+        </div>
+      </div>
+
+      <!-- PANEL UNDUH & KIRIM PDF KE GURU (HANYA MUNCUL PADA PERCOBAAN PERTAMA) -->
+      <div id="first-attempt-submit-box" class="submit-teacher-box hidden">
+        <h3>📄 Kirim Dokumen Hasil PDF ke Guru (Percobaan Pertama)</h3>
+        <p>Tekan tombol <strong>Unduh PDF Hasil</strong> di bawah untuk menyimpan sertifikat PDF ke perangkatmu, lalu kirimkan ke WhatsApp guru (<strong>0857-6666-1866</strong>).</p>
+        <div id="pdf-status-badge" class="pdf-status-badge">⏳ Menyiapkan dokumen PDF resmi...</div>
+        <div class="submit-actions">
+          <button id="btn-download-pdf" type="button" class="btn btn-pdf">📥 Unduh PDF Hasil</button>
+          <button id="btn-share-pdf" type="button" class="btn btn-secondary hidden" style="padding: 12px 18px; font-size: 0.96rem;">📤 Bagikan Langsung PDF</button>
+          <button id="btn-send-wa" type="button" class="btn btn-whatsapp">📲 Kirim ke WA Guru</button>
+        </div>
+      </div>
+
+      <!-- KETERANGAN JIKA SUDAH MENGULANG -->
+      <div id="repeat-attempt-info-box" class="repeat-info-box hidden">
+        🔒 <strong>Mode Latihan Ulang:</strong> Kamu sudah menggunakan kesempatan penerbitan PDF hasil resmi pada percobaan pertama, sehingga dokumen PDF tidak diterbitkan pada percobaan ulang ini.
+      </div>
+
+      <div class="hero-actions">
+        <button class="btn btn-primary btn-restart" type="button" style="width:auto; min-width:200px;">🔄 Main Ulang</button>
+        <button id="btn-scroll-review" class="btn btn-secondary" type="button" style="width:auto;">📖 Rekap Jawaban &amp; Pembahasan Singkat</button>
+      </div>
+    </div>
+
+    <!-- TOMBOL TOGGLE REKAP JAWABAN & PEMBAHASAN -->
+    <button id="btn-toggle-review" class="btn-toggle-review" type="button" aria-expanded="false" aria-controls="review-wrapper">
+      <span>📖 Buka / Tutup Rekap Jawaban &amp; Pembahasan</span>
+      <span class="toggle-chevron" aria-hidden="true">▼</span>
+    </button>
+
+    <div id="review-wrapper" class="review-content hidden">
+      <div class="review-header" id="review-section">
+        <h3>📖 Rekap Jawaban &amp; Pembahasan Singkat</h3>
+      </div>
+      <div id="review-list"></div>
+
+      <div style="text-align:center; margin-top:24px;">
+        <button class="btn btn-primary btn-restart" type="button" style="max-width:260px;">🔄 Main Ulang</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- MODAL KONFIRMASI SELESAI -->
+<div id="confirm-modal" class="modal-backdrop hidden">
+  <div class="modal-box">
+    <h3>Selesaikan Kuis Sekarang?</h3>
+    <p id="confirm-text">Semua 25 soal sudah dijawab! Siap melihat skor akhir dan menyiapkan bukti hasil PDF?</p>
+    <div class="modal-actions">
+      <button id="btn-cancel-finish" style="background:#e2e8f0; color:#1e293b;" type="button">Periksa Lagi</button>
+      <button id="btn-confirm-finish" style="background:#059669; color:#ffffff;" type="button">Ya, Selesai!</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PERINGATAN ANTI-PINDAH LAYAR / KELUAR FULLSCREEN -->
+<div id="security-modal" class="modal-backdrop security-backdrop hidden">
+  <div class="modal-box">
+    <span class="security-badge-type" id="security-type-badge">PELANGGARAN KEAMANAN LAYAR</span>
+    <h3 style="color:#dc2626;">⚠️ Peringatan Mode Ujian!</h3>
+    <p id="security-text">Anda terdeteksi keluar dari layar atau berpindah jendela/tab browser saat kuis berlangsung. Harap tetap berada di layar kuis hingga selesai!</p>
+    <div class="security-tips">
+      <strong>Pastikan hal berikut sebelum melanjutkan:</strong><br>
+      • Matikan mode <strong>Layar Belah (Split-Screen / 2 Layar)</strong>.<br>
+      • Tutup semua <strong>Notifikasi Mengambang / Floating Chat / Pop-up</strong>.<br>
+      • Jangan berpindah tab atau menekan tombol Home/Recent Apps.
+    </div>
+    <div style="font-weight:800; color:#991b1b; margin-bottom:16px; font-size:0.9rem;" id="violation-counter">Pelanggaran tercatat: 1 kali</div>
+    <div class="modal-actions">
+      <button id="btn-resume-fullscreen" style="background:#7c3aed; color:#ffffff;" type="button">🔒 Lanjutkan Kuis</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL NOTIFIKASI PANDUAN PENGIRIMAN PDF DI IOS / ANDROID / WINDOWS -->
+<div id="info-modal" class="modal-backdrop hidden">
+  <div class="modal-box">
+    <h3 id="info-modal-title">📄 Dokumen PDF Siap Dikirim</h3>
+    <p id="info-modal-text">File PDF hasil telah disiapkan.</p>
+    <div class="modal-actions">
+      <button id="btn-close-info" style="background:#7c3aed; color:#ffffff;" type="button">Mengerti</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/**
+ * ============================================================================
+ * PENGATURAN GURU (NOMOR WHATSAPP PENERIMA LAPORAN PDF)
+ * ============================================================================
+ */
+const TEACHER_WHATSAPP_NUMBER = "6285766661866";
+const STORAGE_FIRST_ATTEMPT_KEY = "ipas_pemasaran_asas_first_attempt_done_v3";
+
+/**
+ * ============================================================================
+ * DETEKSI PERANGKAT & BROWSER MOBILE (IOS, ANDROID, IN-APP WEBVIEW)
+ * ============================================================================
+ */
+const DEVICE_INFO = (() => {
+  const ua = navigator.userAgent || "";
+  const isIOS = /iPad|iPhone|iPod/.test(ua) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const isAndroid = /Android/i.test(ua);
+  const isMobile = isIOS || isAndroid || /Mobile|Tablet/i.test(ua);
+  const isInAppBrowser = /(FBAN|FBAV|Instagram|Line|MicroMessenger|Twitter|Snapchat|TikTok|BytedanceWebview|wv\))/i.test(ua) ||
+    (isIOS && !/Safari/i.test(ua));
+  return { isIOS, isAndroid, isMobile, isInAppBrowser };
+})();
+
+/**
+ * ============================================================================
+ * GENERATOR PDF OFFLINE MANDIRI (TANPA INTERNET / TANPA LIBRARY EKSTERNAL)
+ * ============================================================================
+ */
+function sanitizePdfText(str) {
+  return String(str || "")
+    .replace(/[^\x20-\x7E]/g, " ")
+    .replace(/\\/g, "\\\\")
+    .replace(/\(/g, "\\(")
+    .replace(/\)/g, "\\)");
+}
+
+function createOfflineCertificatePDF(data) {
+  const W = 595.28;
+  const H = 841.89;
+  const cmds = [];
+
+  const rgbFill = (r, g, b) => `${(r / 255).toFixed(3)} ${(g / 255).toFixed(3)} ${(b / 255).toFixed(3)} rg`;
+  const rgbStroke = (r, g, b) => `${(r / 255).toFixed(3)} ${(g / 255).toFixed(3)} ${(b / 255).toFixed(3)} RG`;
+
+  const drawRect = (x, yTop, w, h, fillRgb, strokeRgb) => {
+    const y = H - yTop - h;
+    cmds.push("q");
+    if (fillRgb) cmds.push(rgbFill(fillRgb[0], fillRgb[1], fillRgb[2]));
+    if (strokeRgb) {
+      cmds.push("0.8 w");
+      cmds.push(rgbStroke(strokeRgb[0], strokeRgb[1], strokeRgb[2]));
+    }
+    cmds.push(`${x.toFixed(2)} ${y.toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)} re`);
+    if (fillRgb && strokeRgb) cmds.push("B");
+    else if (fillRgb) cmds.push("f");
+    else cmds.push("S");
+    cmds.push("Q");
+  };
+
+  const drawText = (text, x, yTop, size, fontKey, colorRgb, align = "left") => {
+    const clean = sanitizePdfText(text);
+    const y = H - yTop;
+    const avgCharWidth = size * (fontKey === "F2" ? 0.54 : 0.50);
+    let drawX = x;
+    if (align === "center") {
+      drawX = x - (clean.length * avgCharWidth) / 2;
+    } else if (align === "right") {
+      drawX = x - clean.length * avgCharWidth;
+    }
+    cmds.push("BT");
+    cmds.push(`/${fontKey} ${size} Tf`);
+    cmds.push(rgbFill(colorRgb[0], colorRgb[1], colorRgb[2]));
+    cmds.push(`1 0 0 1 ${drawX.toFixed(2)} ${y.toFixed(2)} Tm`);
+    cmds.push(`(${clean}) Tj`);
+    cmds.push("ET");
+  };
+
+  // 1. Header Banner Ungu
+  drawRect(0, 0, W, 96, [75, 29, 149], null);
+  drawText("SERTIFIKAT HASIL EVALUASI ASAS GANJIL", W / 2, 36, 15, "F2", [255, 255, 255], "center");
+  drawText("Mata Pelajaran: Projek IPAS (Bidang Pemasaran) - Percobaan Pertama", W / 2, 58, 10.5, "F1", [255, 255, 255], "center");
+  drawText(`Kode Validasi Resmi: ${data.validationCode}`, W / 2, 78, 8.5, "F2", [254, 240, 138], "center");
+
+  // 2. Kotak Data Peserta & Ringkasan Hasil
+  drawRect(38, 114, 519, 168, [248, 250, 252], [203, 213, 225]);
+  drawText("Data Peserta & Hasil Pengerjaan", 54, 136, 11.5, "F2", [31, 41, 55], "left");
+
+  drawText(`Nama Siswa        : ${data.playerName}`, 54, 158, 10, "F1", [31, 41, 55], "left");
+  drawText(`Kelas                   : ${data.playerClass}`, 54, 178, 10, "F1", [31, 41, 55], "left");
+  drawText(`Waktu Selesai     : ${data.completedAt}`, 54, 198, 10, "F1", [31, 41, 55], "left");
+  drawText(`Sisa Waktu          : ${formatTime(data.remainingSeconds)} (dari 40:00)`, 54, 218, 10, "F1", [31, 41, 55], "left");
+  drawText(`Benar / Salah      : ${data.correctCount} Benar | ${data.wrongCount} Salah/Kosong`, 54, 238, 10, "F1", [31, 41, 55], "left");
+  drawText(`Peringatan Layar : ${data.violationCount} kali (${data.violationSummary || "Aman"})`, 54, 258, 9.2, "F1", [31, 41, 55], "left");
+
+  // 3. Kotak Skor Akhir di Kanan
+  drawRect(416, 134, 122, 126, [124, 58, 237], null);
+  drawText("SKOR AKHIR", 477, 158, 9.5, "F2", [255, 255, 255], "center");
+  drawText(String(data.finalScore), 477, 204, 30, "F2", [255, 255, 255], "center");
+  drawText("DARI 100", 477, 234, 9, "F1", [255, 255, 255], "center");
+
+  // 4. Judul Tabel Rekap Jawaban & Durasi Pengerjaan Per Butir Soal
+  drawText("Rekap Jawaban & Durasi Pengerjaan Per Butir Soal (25 Soal):", 38, 308, 11, "F2", [31, 41, 55], "left");
+
+  const startX = 38;
+  const startY = 322;
+  const colW = 103.8;
+  const rowH = 42;
+
+  for (let i = 0; i < quizData.length; i++) {
+    const col = i % 5;
+    const row = Math.floor(i / 5);
+    const x = startX + col * colW;
+    const y = startY + row * rowH;
+
+    const userAns = data.userAnswers[i];
+    const isCorrect = userAns === quizData[i].answer;
+    const ansChar = userAns !== null ? optionLetters[userAns] : "-";
+    const statusMark = isCorrect ? "Benar" : "Salah";
+    const durSec = data.questionDurations ? data.questionDurations[i] : 0;
+    const durFormatted = formatQuestionDuration(durSec);
+
+    const fillColor = isCorrect ? [209, 250, 229] : [255, 228, 230];
+    const textColor = isCorrect ? [6, 95, 70] : [159, 18, 57];
+
+    drawRect(x, y, colW, rowH, fillColor, [203, 213, 225]);
+    drawText(`No.${i + 1}: ${ansChar} (${statusMark})`, x + colW / 2, y + 17, 8.5, "F2", textColor, "center");
+    drawText(`Waktu: ${durFormatted}`, x + colW / 2, y + 32, 7.5, "F1", textColor, "center");
+  }
+
+  // 5. Catatan Footer Integritas
+  drawText(
+    "Dokumen ini diterbitkan secara offline oleh sistem pada percobaan pertama siswa dan dilindungi kode validasi.",
+    W / 2,
+    562,
+    8.5,
+    "F1",
+    [100, 116, 139],
+    "center"
+  );
+
+  const streamContent = cmds.join("\n");
+
+  const objects = [];
+  objects.push("1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj");
+  objects.push("2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj");
+  objects.push(
+    `3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${W.toFixed(2)} ${H.toFixed(2)}] /Contents 4 0 R /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> >>\nendobj`
+  );
+  objects.push(`4 0 obj\n<< /Length ${streamContent.length} >>\nstream\n${streamContent}\nendstream\nendobj`);
+  objects.push("5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj");
+  objects.push("6 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>\nendobj");
+
+  let pdf = "%PDF-1.4\n";
+  const offsets = [0];
+  for (let i = 0; i < objects.length; i++) {
+    offsets.push(pdf.length);
+    pdf += objects[i] + "\n";
+  }
+
+  const xrefOffset = pdf.length;
+  pdf += `xref\n0 ${objects.length + 1}\n`;
+  pdf += "0000000000 65535 f \n";
+  for (let i = 1; i <= objects.length; i++) {
+    pdf += `${String(offsets[i]).padStart(10, "0")} 00000 n \n`;
+  }
+  pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
+
+  const bytes = new Uint8Array(pdf.length);
+  for (let i = 0; i < pdf.length; i++) {
+    bytes[i] = pdf.charCodeAt(i) & 0xff;
+  }
+
+  const safeName = data.playerName.replace(/[^a-zA-Z0-9_-]/g, "_") || "Siswa";
+  const safeClass = data.playerClass.replace(/[^a-zA-Z0-9_-]/g, "_") || "Kelas";
+  const fileName = `Hasil_IPAS_Pemasaran_${safeName}_${safeClass}.pdf`;
+  const blob = new Blob([bytes], { type: "application/pdf" });
+
+  let file = null;
+  try {
+    if (typeof File !== "undefined") {
+      file = new File([blob], fileName, { type: "application/pdf" });
+    }
+  } catch (e) {
+    file = null;
+  }
+
+  // Siapkan Data URI cadangan untuk browser lama / WebView Android/iOS yang membatasi Blob URL
+  let binaryStr = "";
+  for (let i = 0; i < bytes.byteLength; i++) {
+    binaryStr += String.fromCharCode(bytes[i]);
+  }
+  const dataUri = "data:application/pdf;base64," + btoa(binaryStr);
+
+  return { blob, file, fileName, dataUri };
+}
+
+// Fungsi Universal Unduh File PDF yang Aman untuk iOS Safari, Chrome Android, & Browser Bawaan
+function triggerUniversalPdfDownload(pdfObj) {
+  if (!pdfObj || !pdfObj.blob) return false;
+  try {
+    const url = URL.createObjectURL(pdfObj.blob);
+
+    if (DEVICE_INFO.isIOS) {
+      // Di iOS Safari/Chrome, membuka tab baru dengan Blob/Data URI menampilkan pratinjau PDF resmi
+      // yang dapat langsung disimpan ke Files atau dibagikan ke WhatsApp
+      const opened = window.open(url, "_blank");
+      if (!opened) {
+        window.location.href = pdfObj.dataUri;
+      }
+      setTimeout(() => URL.revokeObjectURL(url), 15000);
+      return true;
+    }
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = pdfObj.fileName;
+    a.rel = "noopener";
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click();
+
+    setTimeout(() => {
+      if (a.parentNode) {
+        document.body.removeChild(a);
+      }
+      URL.revokeObjectURL(url);
+    }, 10000);
+    return true;
+  } catch (err) {
+    try {
+      window.open(pdfObj.dataUri, "_blank");
+      return true;
+    } catch (e2) {
+      return false;
+    }
+  }
+}
+
+/**
+ * ============================================================================
+ * BANK SOAL PROJEK IPAS (BIDANG PEMASARAN) - 25 SOAL PILIHAN GANDA
+ * ============================================================================
+ */
+const quizData = [
+  {
+    question: "1. Saat mempromosikan produk hewan peliharaan di toko pet shop, staf pemasaran menjelaskan bahwa kucing dan anjing secara rutin mengeluarkan zat sisa metabolisme berupa urine dan keringat agar tubuhnya tetap sehat dan bebas racun. Aktivitas pengeluaran zat sisa metabolisme tersebut menunjukkan ciri makhluk hidup berupa...",
+    options: [
+      "Adaptasi morfologi",
+      "Iritabilitas terhadap rangsang",
+      "Reproduksi generatif",
+      "Ekskresi",
+      "Respirasi seluler"
+    ],
+    answer: 3,
+    explanation: "Ekskresi adalah proses pengeluaran zat sisa metabolisme yang sudah tidak diperlukan lagi oleh tubuh, seperti urine, keringat, dan karbon dioksida, agar tidak meracuni tubuh."
+  },
+  {
+    question: "2. Sebuah perkebunan kopi agrowisata yang dikelola koperasi pemasaran daerah mengandalkan faktor lingkungan seperti curah hujan tahunan, kelembapan udara pegunungan, derajat keasaman (pH) tanah, dan intensitas cahaya matahari agar biji kopi berkualitas ekspor. Faktor-faktor lingkungan tersebut tergolong komponen...",
+    options: [
+      "Biotik utama",
+      "Abiotik",
+      "Produsen primer",
+      "Konsumen tingkat I",
+      "Dekomposer tanah"
+    ],
+    answer: 1,
+    explanation: "Curah hujan, kelembapan udara, pH tanah, dan cahaya matahari merupakan benda tak hidup atau kondisi fisik/kimiawi lingkungan yang termasuk komponen abiotik."
+  },
+  {
+    question: "3. Di pusat perbelanjaan (mal) modern, terdapat taman indoor berisi akuarium kaca besar yang dilengkapi ikan hias air tawar, tanaman air (Vallisneria), kerikil hias, pompa aerator, serta lampu sorot LED. Komponen biotik yang bertindak sebagai produsen di dalam ekosistem akuarium tersebut adalah...",
+    options: [
+      "Kerikil hias dan pompa aerator",
+      "Tanaman air (Vallisneria) dan mikroalga",
+      "Ikan hias air tawar dan lampu sorot LED",
+      "Oksigen terlarut dan suhu air",
+      "Bakteri pengurai sisa pakan"
+    ],
+    answer: 1,
+    explanation: "Tanaman air (Vallisneria) dan mikroalga merupakan organisme berklorofil yang mampu membuat makanan sendiri melalui fotosintesis sehingga berperan sebagai produsen."
+  },
+  {
+    question: "4. Dalam penyusunan laporan analisis dampak lingkungan (AMDAL) untuk pembangunan pusat grosir ritel modern, konsultan mengevaluasi hubungan antara komponen biotik dan abiotik. Pernyataan yang paling tepat menggambarkan hubungan timbal balik tersebut adalah...",
+    options: [
+      "Komponen biotik dapat hidup tanpa memerlukan komponen abiotik sama sekali.",
+      "Komponen abiotik selalu bertambah banyak melalui proses perkembangbiakan.",
+      "Komponen biotik (tumbuhan dan mikroba) bergantung pada komponen abiotik (air, cahaya, tanah), dan aktivitas biotik turut memengaruhi kesuburan serta struktur fisik abiotik.",
+      "Tidak terjadi pertukaran energi maupun materi antara komponen biotik dan abiotik.",
+      "Komponen abiotik hanya berperan sebagai hiasan pemandangan area toko."
+    ],
+    answer: 2,
+    explanation: "Dalam suatu ekosistem, komponen biotik membutuhkan faktor abiotik (air, cahaya, unsur hara tanah) untuk bertahan hidup, sementara aktivitas organisme biotik (seperti mikroba pengurai dan akar tumbuhan) memengaruhi kesuburan dan struktur tanah."
+  },
+  {
+    question: "5. Pada stand pameran tanaman hias di pameran produk UMKM, penjual memajang tanaman tanduk rusa (Platycerium) yang menempel pada batang pohon pakis kering untuk mendapat sirkulasi udara dan cahaya tanpa menyerap sari makanan dari inangnya. Pola interaksi ini disebut...",
+    options: [
+      "Parasitisme",
+      "Komensalisme",
+      "Mutualisme",
+      "Predasi",
+      "Kompetisi"
+    ],
+    answer: 1,
+    explanation: "Komensalisme adalah interaksi antara dua makhluk hidup di mana satu pihak diuntungkan (tanaman tanduk rusa mendapat tempat menempel dan cahaya), sedangkan pihak lainnya tidak diuntungkan maupun dirugikan."
+  },
+  {
+    question: "6. Di kebun pembibitan tanaman hias milik kelompok usaha siswa pemasaran, ditemukan hama ulat grayak yang memakan daun-daun muda tanaman aglaonema sehingga nilai jual tanaman menurun drastis. Interaksi antara ulat grayak dan tanaman hias tersebut adalah...",
+    options: [
+      "Mutualisme",
+      "Komensalisme",
+      "Netralisme",
+      "Parasitisme / Herbivori merugikan",
+      "Simbiosis fakultatif"
+    ],
+    answer: 3,
+    explanation: "Ulat grayak memakan jaringan daun tanaman aglaonema sehingga ulat memperoleh makanan (untung), sedangkan tanaman aglaonema rusak dan menurun nilai jualnya (rugi). Pola ini merupakan parasitisme/herbivori yang merugikan tanaman inang."
+  },
+  {
+    question: "7. Perbedaan mendasar antara proses pertumbuhan dan perkembangan pada bibit tanaman hortikultura yang dipasarkan di toko pertanian adalah...",
+    options: [
+      "Pertumbuhan bersifat kualitatif (munculnya bunga), sedangkan perkembangan bersifat kuantitatif (bertambah tinggi).",
+      "Pertumbuhan adalah pertambahan ukuran fisik (tinggi, massa, volume) yang terukur dan tidak dapat balik (irreversible), sedangkan perkembangan adalah proses menuju kedewasaan yang bersifat kualitatif.",
+      "Perkembangan hanya terjadi pada bagian akar, sedangkan pertumbuhan hanya terjadi pada biji.",
+      "Pertumbuhan dipengaruhi nutrisi, sedangkan perkembangan tidak dipengaruhi faktor apa pun.",
+      "Pertumbuhan dan perkembangan memiliki indikator pengukuran yang sama persis."
+    ],
+    answer: 1,
+    explanation: "Pertumbuhan bersifat kuantitatif dan irreversible (dapat diukur dengan angka seperti tinggi dan berat), sedangkan perkembangan bersifat kualitatif berupa pematangan fungsi organ menuju kedewasaan (misalnya munculnya bunga dan buah)."
+  },
+  {
+    question: "8. Tim riset produk pupuk organik cair melakukan uji coba pada tanaman cabai rawit di pot pemasaran. Hasil pengamatan 3 minggu mencatat pertambahan tinggi dari 6 cm menjadi 18 cm dengan daun hijau lebat. Faktor abiotik utama yang memengaruhi hasil positif tersebut adalah...",
+    options: [
+      "Warna stiker merek pada bagian luar pot",
+      "Pencahayaan matahari yang optimal, ketersediaan air yang cukup, serta unsur hara pupuk organik",
+      "Tingginya paparan asap kendaraan bermotor di sekitar kebun",
+      "Penggunaan kemasan plastik berlapis di permukaan tanah",
+      "Pemasangan label harga promosi di batang tanaman"
+    ],
+    answer: 1,
+    explanation: "Cahaya matahari, air, dan unsur hara (nutrisi) merupakan faktor eksternal abiotik utama yang menopang fotosintesis dan pertumbuhan vegetatif tanaman."
+  },
+  {
+    question: "9. Pada kemasan produk teh herbal daun kelor yang dijual secara daring tercantum nama ilmiah Moringa oleifera. Berdasarkan kaidah Binomial Nomenclature, kata Moringa dan kata oleifera secara berurutan menunjukkan tingkatan takson...",
+    options: [
+      "Famili dan Ordo",
+      "Genus dan Penunjuk Spesies",
+      "Divisi dan Kelas",
+      "Spesies dan Genus",
+      "Ordo dan Famili"
+    ],
+    answer: 1,
+    explanation: "Dalam sistem tata nama ganda (Binomial Nomenclature), kata pertama yang diawali huruf kapital (Moringa) menunjukkan Genus, sedangkan kata kedua dengan huruf kecil (oleifera) adalah penunjuk spesies."
+  },
+  {
+    question: "10. Perusahaan distribusi logistik mengoperasikan puluhan truk ekspedisi tua berbahan bakar solar serta pendingin gudang (cold storage) yang mengalami kebocoran gas freon (CFC). Dampak pencemaran udara akibat pelepasan gas CFC ke atmosfer adalah...",
+    options: [
+      "Meningkatkan kesuburan tanah di sekitar gudang distribusi",
+      "Menipiskan lapisan ozon stratosfer dan mempercepat pemanasan global (global warming)",
+      "Menurunkan suhu udara kota secara drastis pada siang hari",
+      "Meningkatkan kadar oksigen murni di kawasan pergudangan",
+      "Mempercepat proses penguraian sampah plastik di TPA"
+    ],
+    answer: 1,
+    explanation: "Gas klorofluorokarbon (CFC) bereaksi dengan molekul ozon di lapisan stratosfer sehingga menipiskan lapisan ozon sekaligus berperan sebagai gas rumah kaca yang memicu pemanasan global."
+  },
+  {
+    question: "11. Sebuah merek ritel fesyen menerapkan strategi Green Marketing melalui program 'Bawa Tas Belanja Sendiri' dan mengganti kantong kresek sekali pakai dengan tas kain pakai ulang (reusable tote bag). Manfaat ekologis dan bisnis utama dari kebijakan ini adalah...",
+    options: [
+      "Meningkatkan timbulan sampah plastik non-biodegradable di TPA",
+      "Mengurangi pencemaran mikroplastik di tanah/perairan sekaligus membangun citra merek peduli lingkungan (eco-friendly brand)",
+      "Membuat konsumen enggan berbelanja kembali ke toko fisik",
+      "Menambah biaya pembuangan limbah plastik perusahaan",
+      "Menghilangkan fungsi kemasan dalam melindungi produk ritel"
+    ],
+    answer: 1,
+    explanation: "Penggunaan tas pakai ulang menekan limbah plastik sekali pakai yang sulit terurai di alam sekaligus memperkuat posisi merek (brand image) yang ramah lingkungan di mata konsumen modern."
+  },
+  {
+    question: "12. Di laboratorium pengembangan produk (R&D) kosmetik herbal, formulasi hand sanitizer cair dibuat dengan mencampurkan etanol murni (C2H5OH) ke dalam air suling (H2O) dan gliserin hingga menyatu sempurna tanpa batas fase. Secara kimiawi, cairan hand sanitizer tersebut diklasifikasikan sebagai...",
+    options: [
+      "Unsur tunggal murni",
+      "Campuran homogen (larutan)",
+      "Campuran heterogen kasar",
+      "Senyawa ionik padat",
+      "Molekul unsur diatomik"
+    ],
+    answer: 1,
+    explanation: "Campuran etanol, air suling, dan gliserin yang terlarut merata membentuk satu fase tunggal tanpa bidang batas disebut campuran homogen (larutan)."
+  },
+  {
+    question: "13. Supermarket ritel memasarkan produk minuman probiotik dan kefir susu hasil fermentasi susu segar menggunakan bantuan mikroorganisme bakteri baik yang mengubah gula susu menjadi asam laktat. Proses pengolahan pangan tersebut merupakan contoh...",
+    options: [
+      "Perubahan fisika pelarutan gula",
+      "Perubahan wujud penyubliman",
+      "Perubahan biologi / biokimia yang melibatkan aktivitas metabolisme mikroorganisme",
+      "Perubahan mekanis pemotongan bahan",
+      "Perubahan fisika pembekuan suhu rendah"
+    ],
+    answer: 2,
+    explanation: "Fermentasi melibatkan aktivitas mikroorganisme hidup (bakteri asam laktat/khamir) yang mengubah laktosa menjadi senyawa baru (asam laktat), sehingga termasuk perubahan biologi/biokimia."
+  },
+  {
+    question: "14. Dalam kemasan makanan ringan (snack) premium yang dijual di minimarket, produsen mengisi ruang kosong kemasan dengan gas Nitrogen (N2) murni agar keripik tetap renyah dan tidak teroksidasi. Zat tunggal gas Nitrogen (N2) dikategorikan sebagai...",
+    options: [
+      "Senyawa kovalen polar",
+      "Unsur (molekul unsur)",
+      "Campuran heterogen gas",
+      "Larutan elektrolit",
+      "Senyawa garam anorganik"
+    ],
+    answer: 1,
+    explanation: "Gas Nitrogen (N2) hanya tersusun dari dua atom sejenis yaitu atom Nitrogen (N), sehingga digolongkan sebagai unsur dalam bentuk molekul unsur diatomik."
+  },
+  {
+    question: "15. Produk soda kue (Natrium Bikarbonat, NaHCO3) yang dijual di rak bahan kue supermarket tersusun atas unsur Natrium, Hidrogen, Karbon, dan Oksigen yang berikatan secara kimia dengan perbandingan massa tetap. Berdasarkan komposisinya, soda kue tergolong...",
+    options: [
+      "Unsur logam alkali",
+      "Campuran heterogen padat",
+      "Senyawa",
+      "Larutan homogen",
+      "Koloid emulsi padat"
+    ],
+    answer: 2,
+    explanation: "Senyawa adalah zat tunggal yang terbentuk dari gabungan dua unsur atau lebih yang berbeda melalui reaksi kimia dengan perbandingan massa yang tetap, seperti NaHCO3."
+  },
+  {
+    question: "16. Tim produksi sabun batang aromaterapi menambahkan pewarna alami ekstrak daun pandan dan minyak esensial sereh ke dalam adonan sabun dasar yang sudah netral tanpa mengubah struktur molekul sabun utamanya. Penambahan pewarna dan pengharum tersebut termasuk...",
+    options: [
+      "Perubahan kimia karena terbentuk endapan gas beracun",
+      "Perubahan fisika karena hanya terjadi pencampuran fisik tanpa membentuk zat kimia baru",
+      "Perubahan biologi karena melibatkan ekstrak daun pandan",
+      "Reaksi nuklir akibat peluruhan zat warna",
+      "Perubahan kimia irreversible pada inti atom"
+    ],
+    answer: 1,
+    explanation: "Karena tidak terjadi reaksi kimia baru dan struktur molekul sabun dasar tetap sama, pencampuran zat warna serta pewangi tersebut merupakan perubahan fisika."
+  },
+  {
+    question: "17. Dina adalah siswa kelas X Pemasaran dengan uang saku bulanan Rp600.000. Saat membuka aplikasi media sosial, Dina langsung membeli sepatu bermerek mahal dan tas trendi hanya karena melihat konten unboxing selebritas internet, meskipun sepatu sekolahnya masih sangat bagus. Perilaku konsumsi Dina yang meniru gaya hidup orang lain demi gengsi disebut...",
+    options: [
+      "Prinsip efisiensi produksi",
+      "Motif spekulasi investasi",
+      "Demonstration effect (efek pamer/meniru)",
+      "Hukum penawaran pasar",
+      "Tindakan distribusi barang"
+    ],
+    answer: 2,
+    explanation: "Demonstration effect adalah perilaku konsumtif seseorang yang terdorong untuk membeli barang tertentu karena meniru gaya hidup orang lain atau tren lingkungan sosial demi prestise/gengsi."
+  },
+  {
+    question: "18. Apabila Dina memiliki kebutuhan mendesak berupa pembelian buku modul pemasaran (Rp80.000), paket data internet untuk tugas sekolah (Rp60.000), dan alat tulis praktik (Rp40.000), tindakan ekonomi rasional yang tepat adalah...",
+    options: [
+      "Membeli tas trendi terlebih dahulu lalu berutang untuk membeli buku modul",
+      "Menyusun skala prioritas dengan mendahulukan pembelian buku modul, paket data internet, dan alat tulis praktik",
+      "Menghabiskan seluruh uang saku untuk membeli camilan kekinian",
+      "Menggunakan fitur pinjaman daring (paylater) untuk membeli barang mewah",
+      "Menunda pembelian alat tulis praktik hingga akhir semester"
+    ],
+    answer: 1,
+    explanation: "Tindakan ekonomi rasional menuntut konsumen menyusun skala prioritas dengan mendahulukan kebutuhan yang paling mendesak dan bermanfaat bagi kegiatan belajar dibandingkan keinginan konsumtif."
+  },
+  {
+    question: "19. Perhatikan daftar barang kebutuhan seorang siswa SMK Pemasaran berikut:\n(1) Seragam praktik toko ritel yang wajib dipakai besok\n(2) Minuman boba kekinian\n(3) Kuota internet untuk mengunggah tugas video promosi\n(4) Gantungan kunci karakter lucu\nPasangan item yang tergolong kebutuhan primer/mendesak saat ini adalah nomor...",
+    options: [
+      "(1) dan (2)",
+      "(1) dan (3)",
+      "(2) dan (3)",
+      "(2) dan (4)",
+      "(3) dan (4)"
+    ],
+    answer: 1,
+    explanation: "Seragam praktik yang wajib dipakai besok (1) dan kuota internet untuk mengunggah tugas sekolah (3) memiliki tingkat urgensi tinggi (kebutuhan sekarang/mendesak), sedangkan boba dan gantungan kunci bersifat tersier."
+  },
+  {
+    question: "20. Sebagai tenaga pemasar (marketer) yang menjunjung tinggi etika bisnis saat mempromosikan produk aksesori remaja, strategi pemasaran yang paling efektif dan jujur adalah...",
+    options: [
+      "Membuat klaim iklan palsu bahwa produk tersebut wajib dibeli seluruh pelajar",
+      "Menyembunyikan biaya tambahan hingga barang tiba di alamat pembeli",
+      "Menawarkan harga paket hemat pelajar (bundling) dan menjelaskan keunggulan fungsi produk secara transparan",
+      "Memaksa konsumen membeli produk menggunakan skema cicilan berbunga tinggi",
+      "Menjelek-jelekkan produk merek pesaing di depan umum"
+    ],
+    answer: 2,
+    explanation: "Pemasaran beretika mengutamakan kejujuran informasi produk dan menawarkan nilai tambah yang sesuai dengan daya beli target pasar (seperti paket bundling pelajar) tanpa manipulasi."
+  },
+  {
+    question: "21. Cermati data uji coba harga jual produk Tas Belanja Lipat di Toko Ritel Sekolah:\n- Pada harga Rp20.000 → Permintaan 500 unit | Penawaran 100 unit\n- Pada harga Rp30.000 → Permintaan 400 unit | Penawaran 200 unit\n- Pada harga Rp40.000 → Permintaan 300 unit | Penawaran 300 unit\n- Pada harga Rp50.000 → Permintaan 200 unit | Penawaran 400 unit\nBerdasarkan data tersebut, harga keseimbangan pasar (equilibrium price) terjadi pada tingkat...",
+    options: [
+      "Harga Rp20.000 dengan kuantitas 500 unit",
+      "Harga Rp30.000 dengan kuantitas 400 unit",
+      "Harga Rp40.000 dengan kuantitas 300 unit",
+      "Harga Rp50.000 dengan kuantitas 400 unit",
+      "Harga Rp50.000 dengan kuantitas 200 unit"
+    ],
+    answer: 2,
+    explanation: "Harga keseimbangan pasar (equilibrium) tercapai ketika jumlah barang yang diminta sama dengan jumlah barang yang ditawarkan (Qd = Qs), yaitu pada harga Rp40.000 dengan kuantitas 300 unit."
+  },
+  {
+    question: "22. Berdasarkan data uji coba harga Tas Belanja Lipat pada soal sebelumnya, pola hubungan antara kenaikan harga jual dan penurunan jumlah unit yang diminta konsumen membuktikan berlakunya...",
+    options: [
+      "Hukum penawaran barang",
+      "Hukum permintaan (semakin tinggi harga barang, semakin sedikit jumlah barang yang diminta)",
+      "Hukum kelangkaan sumber daya",
+      "Teori monopoli perdagangan",
+      "Hukum hasil yang semakin berkurang"
+    ],
+    answer: 1,
+    explanation: "Hukum permintaan menyatakan bahwa harga berbanding terbalik dengan jumlah barang yang diminta (ceteris paribus): ketika harga naik dari Rp20.000 ke Rp50.000, permintaan turun dari 500 menjadi 200 unit."
+  },
+  {
+    question: "23. Penjualan produk pakaian dan kosmetik melalui fitur siaran langsung (live shopping) di aplikasi e-commerce tempat penjual dan pembeli bertransaksi tanpa bertatap muka secara fisik termasuk dalam jenis...",
+    options: [
+      "Pasar konkret tradisional",
+      "Pasar abstrak",
+      "Pasar faktor produksi modal",
+      "Pasar monopoli tunggal",
+      "Bursa komoditas fisik"
+    ],
+    answer: 1,
+    explanation: "Pasar abstrak adalah pasar di mana penjual dan pembeli tidak bertemu secara fisik secara langsung, melainkan melakukan transaksi melalui media perantara daring seperti aplikasi e-commerce."
+  },
+  {
+    question: "24. Unit Produksi Jurusan Pemasaran menerapkan sistem pembayaran nontunai melalui pemindaian kode QRIS yang terhubung langsung ke rekening bank mitra. Keunggulan utama penggunaan QRIS bagi operasional kasir toko ritel adalah...",
+    options: [
+      "Menghapus kewajiban toko mencatat laporan keuangan",
+      "Transaksi berjalan lebih cepat, bebas risiko uang palsu dan salah kembalian, serta pembukuan tercatat otomatis",
+      "Membuat harga produk ritel naik drastis bagi semua pembeli",
+      "Menggantikan fungsi bank umum sebagai lembaga keuangan",
+      "Membebaskan toko dari biaya pembelian barang dagangan"
+    ],
+    answer: 1,
+    explanation: "Pembayaran digital QRIS mempercepat antrean kasir, menghindari risiko uang palsu maupun selisih uang kembalian, serta otomatis merekap riwayat transaksi secara digital."
+  },
+  {
+    question: "25. Program kemitraan konsinyasi (titip jual) produk kerajinan tangan dan makanan ringan milik UMKM warga sekitar di Toko Ritel Pemasaran Sekolah memberikan dampak kesejahteraan sosial nonmateri berupa...",
+    options: [
+      "Meningkatnya jumlah kepemilikan kendaraan mewah warga",
+      "Bertambahnya saldo deposito pemilik modal besar",
+      "Terjalinnya solidaritas sosial, peningkatan keterampilan pemasaran UMKM, dan hubungan harmonis antara sekolah dan masyarakat",
+      "Tingginya tingkat konsumsi barang impor di lingkungan sekolah",
+      "Berkurangnya minat warga berwirausaha secara mandiri"
+    ],
+    answer: 2,
+    explanation: "Kesejahteraan sosial nonmateri mencakup aspek hubungan sosial dan pemberdayaan manusia, seperti terjalinnya solidaritas, transfer ilmu pemasaran bagi UMKM, serta sinergi harmonis sekolah dengan warga."
+  }
+];
+
+// Simbol geometri & huruf opsi
+const optionShapes = ["▲", "◆", "●", "■", "★"];
+const optionLetters = ["A", "B", "C", "D", "E"];
+
+// State Permainan
+const TOTAL_TIME_SECONDS = 40 * 60;
+let currentIndex = 0;
+let userAnswers = new Array(quizData.length).fill(null);
+let questionDurations = new Array(quizData.length).fill(0);
+let questionStartTimeMs = null;
+let remainingSeconds = TOTAL_TIME_SECONDS;
+let timerInterval = null;
+let playerName = "";
+let playerClass = "";
+let isQuizActive = false;
+let violationCount = 0;
+let violationLogs = [];
+let lastViolationTimestamp = 0;
+let screenGuardInterval = null;
+let initialScreenArea = 0;
+let isFirstAttempt = true;
+let cachedFirstAttemptResult = null;
+let cachedPdfFile = null;
+
+// Helper Penyimpanan Status Percobaan Pertama (Aman di Mode Private / WebView)
+let memoryFirstAttemptDone = false;
+function hasCompletedFirstAttempt() {
+  if (memoryFirstAttemptDone) return true;
+  try {
+    return localStorage.getItem(STORAGE_FIRST_ATTEMPT_KEY) === "true";
+  } catch (e) {
+    return false;
+  }
+}
+
+function markFirstAttemptCompleted() {
+  memoryFirstAttemptDone = true;
+  try {
+    localStorage.setItem(STORAGE_FIRST_ATTEMPT_KEY, "true");
+  } catch (e) {}
+}
+
+// Fungsi Membuat Kode Validasi Digital Integritas Hasil
+function generateValidationCode(data) {
+  const durationSig = (data.questionDurations || []).join(",");
+  const raw = `${data.playerName}|${data.playerClass}|${data.finalScore}|${data.correctCount}|${data.remainingSeconds}|${data.violationCount}|${data.violationSummary || ""}|${data.answerSummaryString}|${durationSig}`;
+  let h1 = 0x811c9dc5;
+  let h2 = 0x01000193;
+  for (let i = 0; i < raw.length; i++) {
+    const ch = raw.charCodeAt(i);
+    h1 ^= ch;
+    h1 = Math.imul(h1, 0x01000193);
+    h2 ^= ch + i;
+    h2 = Math.imul(h2, 0x85ebca6b);
+  }
+  const part1 = (h1 >>> 0).toString(16).toUpperCase().padStart(8, "0");
+  const part2 = (h2 >>> 0).toString(16).toUpperCase().padStart(8, "0");
+  return `IPAS-${part1}-${part2}`;
+}
+
+// Referensi Elemen DOM
+const startScreen = document.getElementById("start-screen");
+const quizScreen = document.getElementById("quiz-screen");
+const resultScreen = document.getElementById("result-screen");
+const confirmModal = document.getElementById("confirm-modal");
+const securityModal = document.getElementById("security-modal");
+const infoModal = document.getElementById("info-modal");
+const btnToggleReview = document.getElementById("btn-toggle-review");
+const reviewWrapper = document.getElementById("review-wrapper");
+const repeatWarningStart = document.getElementById("repeat-warning-start");
+const firstAttemptSubmitBox = document.getElementById("first-attempt-submit-box");
+const repeatAttemptInfoBox = document.getElementById("repeat-attempt-info-box");
+const pdfStatusBadge = document.getElementById("pdf-status-badge");
+const btnDownloadPdf = document.getElementById("btn-download-pdf");
+const btnSendWa = document.getElementById("btn-send-wa");
+const btnSharePdf = document.getElementById("btn-share-pdf");
+
+// Tampilkan banner edukasi jika dibuka di browser in-app (WA/IG/dll)
+if (DEVICE_INFO.isInAppBrowser) {
+  document.getElementById("inapp-browser-warning").classList.remove("hidden");
+}
+
+function showInfoModal(title, text) {
+  document.getElementById("info-modal-title").textContent = title;
+  document.getElementById("info-modal-text").textContent = text;
+  infoModal.classList.remove("hidden");
+}
+
+document.getElementById("btn-close-info").addEventListener("click", () => {
+  infoModal.classList.add("hidden");
+});
+
+function syncStartScreenAttemptNotice() {
+  if (hasCompletedFirstAttempt()) {
+    repeatWarningStart.classList.remove("hidden");
+  } else {
+    repeatWarningStart.classList.add("hidden");
+  }
+}
+syncStartScreenAttemptNotice();
+
+function setReviewVisibility(isVisible) {
+  btnToggleReview.setAttribute("aria-expanded", String(isVisible));
+  if (isVisible) {
+    reviewWrapper.classList.remove("hidden");
+  } else {
+    reviewWrapper.classList.add("hidden");
+  }
+}
+
+btnToggleReview.addEventListener("click", () => {
+  const isCurrentlyHidden = reviewWrapper.classList.contains("hidden");
+  setReviewVisibility(isCurrentlyHidden);
+});
+
+// ============================================================================
+// FULLSCREEN HANYA UNTUK DESKTOP (DIHAPUS DI IOS/ANDROID AGAR TIDAK ERROR)
+// ============================================================================
+function enterFullScreen() {
+  if (DEVICE_INFO.isMobile || DEVICE_INFO.isIOS) return;
+  const elem = document.documentElement;
+  try {
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+      if (elem.requestFullscreen) {
+        const p = elem.requestFullscreen();
+        if (p && typeof p.catch === "function") p.catch(() => {});
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+      }
+    }
+  } catch (e) {}
+}
+
+function exitFullScreen() {
+  if (DEVICE_INFO.isMobile || DEVICE_INFO.isIOS) return;
+  try {
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+      if (document.exitFullscreen) {
+        const p = document.exitFullscreen();
+        if (p && typeof p.catch === "function") p.catch(() => {});
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      }
+    }
+  } catch (e) {}
+}
+
+// ============================================================================
+// SISTEM PENGAMANAN LAYAR RAMAH PONSEL (ANDROID & IOS COMPATIBLE)
+// ============================================================================
+function isSplitScreenOrFloatingActive() {
+  // Di perangkat mobile, hanya deteksi split-screen ekstrem agar tidak salah memicu
+  // akibat address bar Safari/Chrome naik-turun atau bilah navigasi HP.
+  const sw = window.screen && window.screen.availWidth ? window.screen.availWidth : window.innerWidth;
+  const sh = window.screen && window.screen.availHeight ? window.screen.availHeight : window.innerHeight;
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+
+  const widthRatio = vw / Math.max(sw, 1);
+  const heightRatio = vh / Math.max(sh, 1);
+
+  if (DEVICE_INFO.isMobile) {
+    // Pada HP, split-screen biasanya membelah tinggi atau lebar layar hingga < 58%
+    if (widthRatio < 0.65 || heightRatio < 0.56) {
+      return {
+        detected: true,
+        type: "MODE 2 LAYAR (SPLIT-SCREEN)",
+        reason: "Terdeteksi tampilan 2 layar (Split-Screen)! Kembalikan browser ke tampilan 1 layar penuh."
+      };
+    }
+    return { detected: false };
+  }
+
+  // Untuk Desktop / Laptop
+  if (widthRatio < 0.80 || heightRatio < 0.75) {
+    return {
+      detected: true,
+      type: "MODE 2 LAYAR (SPLIT-SCREEN)",
+      reason: "Terdeteksi tampilan 2 layar (Split-Screen) atau jendela diperkecil! Kembalikan browser ke tampilan 1 layar penuh."
+    };
+  }
+
+  if (initialScreenArea > 0) {
+    const currentArea = vw * vh;
+    if (currentArea < initialScreenArea * 0.72) {
+      return {
+        detected: true,
+        type: "JENDELA MENGAMBANG / RESIZE",
+        reason: "Ukuran layar kuis menyusut drastis akibat tampilan 2 layar atau jendela mengambang."
+      };
+    }
+  }
+
+  return { detected: false };
+}
+
+function triggerSecurityWarning(reason, violationType = "PERPINDAHAN LAYAR") {
+  if (!isQuizActive) return;
+
+  const now = Date.now();
+  if (now - lastViolationTimestamp < 1800 && !securityModal.classList.contains("hidden")) {
+    return;
+  }
+  lastViolationTimestamp = now;
+
+  violationCount++;
+  if (!violationLogs.includes(violationType)) {
+    violationLogs.push(violationType);
+  }
+
+  document.getElementById("security-type-badge").textContent = `⚠️ ${violationType}`;
+  document.getElementById("security-text").textContent = reason;
+  document.getElementById("violation-counter").textContent = `Pelanggaran tercatat: ${violationCount} kali`;
+  securityModal.classList.remove("hidden");
+}
+
+function startScreenSecurityGuard() {
+  stopScreenSecurityGuard();
+  const sw = window.screen && window.screen.availWidth ? window.screen.availWidth : window.innerWidth;
+  const sh = window.screen && window.screen.availHeight ? window.screen.availHeight : window.innerHeight;
+  initialScreenArea = Math.max(window.innerWidth * window.innerHeight, sw * sh * 0.85);
+
+  screenGuardInterval = setInterval(() => {
+    if (!isQuizActive) return;
+
+    // Pada perangkat mobile, hindari polling document.hasFocus() karena sentuhan pada
+    // bilah sistem/notifikasi ringan sering memberi false-positive; andalkan visibilitychange.
+    if (!DEVICE_INFO.isMobile && typeof document.hasFocus === "function" && !document.hasFocus()) {
+      triggerSecurityWarning(
+        "Fokus aplikasi terlepas! Terdeteksi membuka jendela atau aplikasi lain saat kuis berlangsung.",
+        "HILANG FOKUS LAYAR"
+      );
+      return;
+    }
+
+    const splitCheck = isSplitScreenOrFloatingActive();
+    if (splitCheck.detected) {
+      triggerSecurityWarning(splitCheck.reason, splitCheck.type);
+    }
+  }, 1000);
+}
+
+function stopScreenSecurityGuard() {
+  if (screenGuardInterval) {
+    clearInterval(screenGuardInterval);
+    screenGuardInterval = null;
+  }
+}
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden && isQuizActive) {
+    triggerSecurityWarning(
+      "Anda terdeteksi berpindah tab, membuka aplikasi lain, atau keluar dari layar browser saat kuis berlangsung!",
+      "PINDAH TAB / APLIKASI"
+    );
+  }
+});
+
+window.addEventListener("blur", () => {
+  if (isQuizActive && !DEVICE_INFO.isMobile) {
+    triggerSecurityWarning(
+      "Fokus layar terdeteksi berpindah ke aplikasi lain saat kuis berlangsung!",
+      "PINDAH APLIKASI LAIN"
+    );
+  }
+});
+
+window.addEventListener("resize", () => {
+  if (!isQuizActive) return;
+  const splitCheck = isSplitScreenOrFloatingActive();
+  if (splitCheck.detected) {
+    triggerSecurityWarning(splitCheck.reason, splitCheck.type);
+  }
+});
+
+document.addEventListener("contextmenu", (e) => {
+  if (isQuizActive) {
+    e.preventDefault();
+  }
+});
+
+document.addEventListener("keydown", (e) => {
+  if (!isQuizActive) return;
+  const key = (e.key || "").toLowerCase();
+  if (
+    e.key === "Escape" ||
+    e.key === "F11" ||
+    ((e.ctrlKey || e.metaKey) && ["t", "n", "w", "tab", "c", "v", "u", "s", "p"].includes(key)) ||
+    (e.altKey && key === "tab")
+  ) {
+    e.preventDefault();
+    triggerSecurityWarning(
+      "Tombol pintasan sistem terdeteksi! Tetap berada di layar kuis hingga seluruh soal selesai.",
+      "TOMBOL PINTASAN SISTEM"
+    );
+  }
+});
+
+function handleFullscreenChange() {
+  if (DEVICE_INFO.isMobile || DEVICE_INFO.isIOS) return;
+  const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+  if (!isFs && isQuizActive) {
+    triggerSecurityWarning(
+      "Anda keluar dari mode layar penuh (Fullscreen). Tekan tombol di bawah untuk melanjutkan kuis.",
+      "KELUAR LAYAR PENUH"
+    );
+  }
+}
+
+document.addEventListener("fullscreenchange", handleFullscreenChange);
+document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+
+document.getElementById("btn-resume-fullscreen").addEventListener("click", () => {
+  const splitCheck = isSplitScreenOrFloatingActive();
+  if (splitCheck.detected) {
+    document.getElementById("security-type-badge").textContent = `⚠️ ${splitCheck.type}`;
+    document.getElementById("security-text").textContent =
+      "Layar masih terdeteksi dalam mode 2 layar (Split-Screen)! Tutup layar kedua terlebih dahulu lalu tekan tombol di bawah.";
+    return;
+  }
+  enterFullScreen();
+  securityModal.classList.add("hidden");
+  window.focus();
+});
+
+// Mulai Kuis
+document.getElementById("btn-start").addEventListener("click", () => {
+  const nameInput = document.getElementById("player-name").value.trim();
+  const classInput = document.getElementById("player-class").value.trim();
+  const errorMsg = document.getElementById("form-error");
+
+  if (!nameInput || !classInput) {
+    errorMsg.style.display = "block";
+    return;
+  }
+
+  // Lepas fokus input agar keyboard HP tertutup rapi sebelum kuis dimulai
+  if (document.activeElement && typeof document.activeElement.blur === "function") {
+    document.activeElement.blur();
+  }
+
+  errorMsg.style.display = "none";
+  playerName = nameInput;
+  playerClass = classInput;
+  isFirstAttempt = !hasCompletedFirstAttempt();
+
+  document.getElementById("display-name").textContent = playerName;
+  document.getElementById("display-class").textContent = playerClass;
+  document.getElementById("avatar-initial").textContent = playerName.charAt(0).toUpperCase();
+
+  currentIndex = 0;
+  userAnswers = new Array(quizData.length).fill(null);
+  questionDurations = new Array(quizData.length).fill(0);
+  questionStartTimeMs = Date.now();
+  remainingSeconds = TOTAL_TIME_SECONDS;
+  violationCount = 0;
+  violationLogs = [];
+  lastViolationTimestamp = 0;
+  isQuizActive = true;
+
+  enterFullScreen();
+  startScreenSecurityGuard();
+
+  startScreen.classList.add("hidden");
+  resultScreen.classList.add("hidden");
+  quizScreen.classList.remove("hidden");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  renderNavigator();
+  renderQuestion();
+  startTimer();
+});
+
+// Timer 40 Menit
+function startTimer() {
+  clearInterval(timerInterval);
+  updateTimerUI();
+  timerInterval = setInterval(() => {
+    remainingSeconds--;
+    updateTimerUI();
+    if (remainingSeconds <= 0) {
+      clearInterval(timerInterval);
+      finishQuiz();
+    }
+  }, 1000);
+}
+
+function formatTime(sec) {
+  const safeSec = Math.max(0, Math.floor(sec || 0));
+  const m = Math.floor(safeSec / 60).toString().padStart(2, "0");
+  const s = (safeSec % 60).toString().padStart(2, "0");
+  return `${m}:${s}`;
+}
+
+function formatQuestionDuration(sec) {
+  const safeSec = Math.max(0, Math.round(sec || 0));
+  if (safeSec < 60) {
+    return `${safeSec} dtk`;
+  }
+  const m = Math.floor(safeSec / 60);
+  const s = safeSec % 60;
+  return s > 0 ? `${m} mnt ${s} dtk` : `${m} mnt`;
+}
+
+function recordCurrentQuestionElapsedTime() {
+  if (!isQuizActive || questionStartTimeMs === null) return;
+  const now = Date.now();
+  const elapsedSeconds = (now - questionStartTimeMs) / 1000;
+  questionDurations[currentIndex] = (questionDurations[currentIndex] || 0) + elapsedSeconds;
+  questionStartTimeMs = now;
+}
+
+function updateTimerUI() {
+  const timerEl = document.getElementById("timer-display");
+  timerEl.textContent = `⏱️ ${formatTime(remainingSeconds)}`;
+  if (remainingSeconds <= 300) {
+    timerEl.classList.add("danger");
+  } else {
+    timerEl.classList.remove("danger");
+  }
+}
+
+// Render Soal Aktif
+function renderQuestion() {
+  const item = quizData[currentIndex];
+  const total = quizData.length;
+
+  document.getElementById("question-counter").textContent = `Soal ${currentIndex + 1} / ${total}`;
+  document.getElementById("progress-fill").style.width = `${((currentIndex + 1) / total) * 100}%`;
+  document.getElementById("question-text").textContent = item.question;
+
+  const optionsContainer = document.getElementById("options-container");
+  optionsContainer.innerHTML = "";
+
+  const chosen = userAnswers[currentIndex];
+
+  item.options.forEach((optText, idx) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = `option-btn opt-${idx}`;
+
+    if (chosen !== null) {
+      if (chosen === idx) {
+        btn.classList.add("selected");
+      } else {
+        btn.classList.add("dimmed");
+      }
+    }
+
+    btn.innerHTML = `
+      <span class="shape-icon">${optionShapes[idx]}</span>
+      <span class="option-label-wrap">
+        <span class="option-letter">${optionLetters[idx]}.</span>${optText}
+      </span>
+      ${chosen === idx ? '<span class="selected-tag">Dipilih</span>' : ""}
+    `;
+
+    btn.addEventListener("click", () => {
+      userAnswers[currentIndex] = idx;
+      renderQuestion();
+      updateNavigatorState();
+    });
+
+    optionsContainer.appendChild(btn);
+  });
+
+  const btnPrev = document.getElementById("btn-prev");
+  const btnNext = document.getElementById("btn-next");
+  const btnFinish = document.getElementById("btn-finish");
+  const allAnswered = userAnswers.every(a => a !== null);
+
+  btnPrev.disabled = currentIndex === 0;
+  btnNext.disabled = currentIndex === total - 1;
+  btnFinish.disabled = !allAnswered;
+
+  if (allAnswered) {
+    btnFinish.classList.remove("hidden");
+    btnFinish.title = "Semua soal terjawab. Klik untuk menyelesaikan kuis.";
+  } else if (currentIndex === total - 1) {
+    btnFinish.classList.remove("hidden");
+    btnFinish.title = "Jawab semua 25 soal terlebih dahulu untuk menyelesaikan kuis.";
+  } else {
+    btnFinish.classList.add("hidden");
+  }
+
+  if (currentIndex === total - 1) {
+    btnNext.classList.add("hidden");
+  } else {
+    btnNext.classList.remove("hidden");
+  }
+
+  updateNavigatorState();
+}
+
+function renderNavigator() {
+  const navGrid = document.getElementById("nav-grid");
+  navGrid.innerHTML = "";
+  quizData.forEach((_, idx) => {
+    const numBtn = document.createElement("button");
+    numBtn.type = "button";
+    numBtn.className = "nav-num";
+    numBtn.textContent = idx + 1;
+    numBtn.addEventListener("click", () => {
+      recordCurrentQuestionElapsedTime();
+      currentIndex = idx;
+      renderQuestion();
+    });
+    navGrid.appendChild(numBtn);
+  });
+}
+
+function updateNavigatorState() {
+  const buttons = document.querySelectorAll(".nav-num");
+  let answeredCount = 0;
+
+  buttons.forEach((btn, idx) => {
+    btn.classList.remove("answered", "current");
+    if (userAnswers[idx] !== null) {
+      btn.classList.add("answered");
+      answeredCount++;
+    }
+    if (idx === currentIndex) {
+      btn.classList.add("current");
+    }
+  });
+
+  document.getElementById("answered-count").textContent = `Terjawab: ${answeredCount} / ${quizData.length}`;
+}
+
+document.getElementById("btn-prev").addEventListener("click", () => {
+  if (currentIndex > 0) {
+    recordCurrentQuestionElapsedTime();
+    currentIndex--;
+    renderQuestion();
+  }
+});
+
+document.getElementById("btn-next").addEventListener("click", () => {
+  if (currentIndex < quizData.length - 1) {
+    recordCurrentQuestionElapsedTime();
+    currentIndex++;
+    renderQuestion();
+  }
+});
+
+document.getElementById("btn-finish").addEventListener("click", () => {
+  const firstUnanswered = userAnswers.indexOf(null);
+  if (firstUnanswered !== -1) {
+    recordCurrentQuestionElapsedTime();
+    currentIndex = firstUnanswered;
+    renderQuestion();
+    return;
+  }
+  document.getElementById("confirm-text").textContent = "Semua 25 soal sudah dijawab! Siap melihat skor akhir dan menyiapkan bukti hasil PDF?";
+  confirmModal.classList.remove("hidden");
+});
+
+document.getElementById("btn-cancel-finish").addEventListener("click", () => {
+  confirmModal.classList.add("hidden");
+});
+
+document.getElementById("btn-confirm-finish").addEventListener("click", () => {
+  confirmModal.classList.add("hidden");
+  finishQuiz();
+});
+
+// Event Unduh PDF Manual (Aman terhadap pemblokiran pop-up iOS/Android)
+btnDownloadPdf.addEventListener("click", () => {
+  if (!cachedFirstAttemptResult) return;
+  const pdfResult = cachedPdfFile || createOfflineCertificatePDF(cachedFirstAttemptResult);
+  cachedPdfFile = pdfResult;
+  const ok = triggerUniversalPdfDownload(pdfResult);
+  if (ok) {
+    const msg = DEVICE_INFO.isIOS
+      ? `Dokumen "${pdfResult.fileName}" terbuka di tab pratinjau. Ketuk ikon Bagikan (Share) di bawah layar Safari lalu pilih "Simpan ke File" atau kirim langsung ke WhatsApp guru.`
+      : `Dokumen "${pdfResult.fileName}" telah disimpan ke folder Unduhan (Downloads / File Saya) di perangkat Anda.`;
+    showInfoModal("📥 Dokumen PDF Siap", msg);
+  }
+});
+
+// Event Kirim Langsung ke Nomor WhatsApp Guru (6285766661866)
+btnSendWa.addEventListener("click", () => {
+  if (!cachedFirstAttemptResult) return;
+  const pdfResult = cachedPdfFile || createOfflineCertificatePDF(cachedFirstAttemptResult);
+  cachedPdfFile = pdfResult;
+
+  const shareText =
+    `*HASIL ASAS GANJIL PROJEK IPAS (PEMASARAN)*\n` +
+    `Nama Siswa : ${cachedFirstAttemptResult.playerName}\n` +
+    `Kelas : ${cachedFirstAttemptResult.playerClass}\n` +
+    `Skor Akhir : *${cachedFirstAttemptResult.finalScore} / 100*\n` +
+    `Benar / Salah : ${cachedFirstAttemptResult.correctCount} Benar | ${cachedFirstAttemptResult.wrongCount} Salah\n` +
+    `Sisa Waktu : ${formatTime(cachedFirstAttemptResult.remainingSeconds)}\n` +
+    `Kode Validasi : ${cachedFirstAttemptResult.validationCode}\n\n` +
+    `_(Lampirkan file PDF: ${pdfResult ? pdfResult.fileName : "Hasil_IPAS_Pemasaran.pdf"} yang sudah diunduh)_`;
+
+  const cleanPhone = TEACHER_WHATSAPP_NUMBER.replace(/\D/g, "");
+  const encodedText = encodeURIComponent(shareText);
+  const waUrl = `https://wa.me/${cleanPhone}?text=${encodedText}`;
+
+  const popup = window.open(waUrl, "_blank", "noopener,noreferrer");
+  if (!popup) {
+    window.location.href = waUrl;
+  }
+});
+
+// Event Bagikan File PDF Langsung via Menu Share HP (Android / iOS Safari)
+btnSharePdf.addEventListener("click", async () => {
+  if (!cachedFirstAttemptResult) return;
+  const pdfResult = cachedPdfFile || createOfflineCertificatePDF(cachedFirstAttemptResult);
+  cachedPdfFile = pdfResult;
+
+  if (!pdfResult || !pdfResult.file || !navigator.share) {
+    triggerUniversalPdfDownload(pdfResult);
+    return;
+  }
+
+  const shareText =
+    `Hasil ASAS Ganjil Projek IPAS (Pemasaran)\n` +
+    `Nama: ${cachedFirstAttemptResult.playerName}\n` +
+    `Kelas: ${cachedFirstAttemptResult.playerClass}\n` +
+    `Skor: ${cachedFirstAttemptResult.finalScore}/100\n` +
+    `Kode Validasi: ${cachedFirstAttemptResult.validationCode}`;
+
+  try {
+    await navigator.share({
+      title: "Sertifikat Hasil ASAS IPAS Pemasaran",
+      text: shareText,
+      files: [pdfResult.file]
+    });
+  } catch (err) {
+    if (!err || err.name !== "AbortError") {
+      triggerUniversalPdfDownload(pdfResult);
+    }
+  }
+});
+
+// Selesai & Hitung Hasil
+function finishQuiz() {
+  recordCurrentQuestionElapsedTime();
+  questionStartTimeMs = null;
+  isQuizActive = false;
+  stopScreenSecurityGuard();
+  clearInterval(timerInterval);
+  securityModal.classList.add("hidden");
+  exitFullScreen();
+
+  setReviewVisibility(false);
+  quizScreen.classList.add("hidden");
+  resultScreen.classList.remove("hidden");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  let correctCount = 0;
+  quizData.forEach((item, idx) => {
+    if (userAnswers[idx] === item.answer) {
+      correctCount++;
+    }
+  });
+
+  const wrongCount = quizData.length - correctCount;
+  const finalScore = correctCount * 4;
+  const answerSummaryString = userAnswers
+    .map((ans, i) => `${i + 1}:${ans !== null ? optionLetters[ans] : "-"}`)
+    .join(" ");
+  const roundedDurations = questionDurations.map((sec) => Math.round(sec));
+
+  document.getElementById("result-player-info").textContent = `${playerName} • ${playerClass}`;
+  document.getElementById("final-score").textContent = finalScore;
+  document.getElementById("stat-correct").textContent = `${correctCount} Soal`;
+  document.getElementById("stat-wrong").textContent = `${wrongCount} Soal`;
+  document.getElementById("stat-time").textContent = formatTime(remainingSeconds);
+
+  if (isFirstAttempt) {
+    markFirstAttemptCompleted();
+
+    const nowStr = new Date().toLocaleString("id-ID", {
+      dateStyle: "medium",
+      timeStyle: "short"
+    });
+
+    const resultPayload = {
+      playerName,
+      playerClass,
+      finalScore,
+      correctCount,
+      wrongCount,
+      remainingSeconds,
+      violationCount,
+      violationSummary: violationLogs.length > 0 ? violationLogs.join(", ") : "Aman",
+      completedAt: nowStr,
+      userAnswers: [...userAnswers],
+      questionDurations: roundedDurations,
+      answerSummaryString,
+      validationCode: ""
+    };
+    resultPayload.validationCode = generateValidationCode(resultPayload);
+    cachedFirstAttemptResult = resultPayload;
+
+    // Siapkan objek PDF di memori tanpa auto-download paksa agar tidak diblokir browser HP
+    cachedPdfFile = createOfflineCertificatePDF(resultPayload);
+    if (cachedPdfFile) {
+      pdfStatusBadge.textContent = `✅ PDF Siap Diunduh: ${cachedPdfFile.fileName} (${resultPayload.validationCode})`;
+
+      let canShareFiles = false;
+      try {
+        canShareFiles = Boolean(
+          cachedPdfFile.file &&
+          typeof navigator.share === "function" &&
+          typeof navigator.canShare === "function" &&
+          navigator.canShare({ files: [cachedPdfFile.file] })
+        );
+      } catch (e) {
+        canShareFiles = false;
+      }
+
+      if (canShareFiles) {
+        btnSharePdf.classList.remove("hidden");
+      } else {
+        btnSharePdf.classList.add("hidden");
+      }
+    }
+
+    firstAttemptSubmitBox.classList.remove("hidden");
+    repeatAttemptInfoBox.classList.add("hidden");
+  } else {
+    cachedFirstAttemptResult = null;
+    cachedPdfFile = null;
+    firstAttemptSubmitBox.classList.add("hidden");
+    repeatAttemptInfoBox.classList.remove("hidden");
+  }
+
+  let message = "";
+  if (finalScore >= 90) {
+    message = "🌟 Luar Biasa! Penguasaan materi IPAS Pemasaran sangat memuaskan!";
+  } else if (finalScore >= 75) {
+    message = "👏 Bagus Sekali! Pemahamanmu sudah sangat baik, pertahankan!";
+  } else if (finalScore >= 60) {
+    message = "👍 Cukup Baik! Pelajari kembali pembahasan soal yang masih keliru.";
+  } else {
+    message = "💪 Tetap Semangat! Baca pembahasan di bawah lalu coba main ulang.";
+  }
+  document.getElementById("appreciation-msg").textContent = message;
+
+  // Render Pembahasan
+  const reviewList = document.getElementById("review-list");
+  reviewList.innerHTML = "";
+
+  quizData.forEach((item, idx) => {
+    const userAns = userAnswers[idx];
+    const isCorrect = userAns === item.answer;
+    const isUnanswered = userAns === null;
+    const durFormatted = formatQuestionDuration(roundedDurations[idx]);
+
+    let statusClass = isCorrect ? "correct" : (isUnanswered ? "unanswered" : "wrong");
+    let statusLabel = isCorrect ? "✔ Benar (+4)" : (isUnanswered ? "⚠ Tidak Dijawab (0)" : "✘ Salah (0)");
+
+    const userAnsText = isUnanswered
+      ? "<em>Tidak dijawab</em>"
+      : `${optionLetters[userAns]}. ${item.options[userAns]}`;
+
+    const correctAnsText = `${optionLetters[item.answer]}. ${item.options[item.answer]}`;
+
+    const div = document.createElement("div");
+    div.className = `review-item ${statusClass}`;
+    div.innerHTML = `
+      <div class="review-top">
+        <strong>Nomor ${idx + 1} <span style="font-weight:600; color:#64748b; font-size:0.85rem;">(⏱️ ${durFormatted})</span></strong>
+        <span class="status-badge ${statusClass}">${statusLabel}</span>
+      </div>
+      <div class="review-q">${item.question}</div>
+      <div class="review-ans"><strong>Jawaban Kamu:</strong> ${userAnsText}</div>
+      <div class="review-ans" style="color:#065f46;"><strong>Kunci Jawaban:</strong> ${correctAnsText}</div>
+      <div class="explanation-box"><strong>💡 Pembahasan:</strong> ${item.explanation}</div>
+    `;
+    reviewList.appendChild(div);
+  });
+}
+
+document.getElementById("btn-scroll-review").addEventListener("click", () => {
+  const reviewHeader = document.getElementById("review-section");
+
+  setReviewVisibility(true);
+  reviewHeader.scrollIntoView({ behavior: "smooth", block: "start" });
+
+  reviewHeader.classList.add("highlight-focus");
+  setTimeout(() => {
+    reviewHeader.classList.remove("highlight-focus");
+  }, 1600);
+});
+
+document.querySelectorAll(".btn-restart").forEach(btn => {
+  btn.addEventListener("click", () => {
+    isQuizActive = false;
+    stopScreenSecurityGuard();
+    isFirstAttempt = false;
+    questionStartTimeMs = null;
+    cachedFirstAttemptResult = null;
+    cachedPdfFile = null;
+    clearInterval(timerInterval);
+    securityModal.classList.add("hidden");
+    infoModal.classList.add("hidden");
+    exitFullScreen();
+    syncStartScreenAttemptNotice();
+    setReviewVisibility(false);
+    resultScreen.classList.add("hidden");
+    quizScreen.classList.add("hidden");
+    startScreen.classList.remove("hidden");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+});
+</script>
+</body>
+</html>
